@@ -7,7 +7,7 @@ Resources:
     Properties:
       AutoPublishAlias: live
       Handler: lambda_function.handler
-      Runtime: python2.7
+      Runtime: python3.9
       MemorySize: 256
       Tracing: Active
       Timeout: 10

@@ -7,7 +7,7 @@ from sms_spam_classifier_utilities import one_hot_encode
 from sms_spam_classifier_utilities import vectorize_sequences
 
 logging.basicConfig(level=logging.DEBUG)
-print "logging"
+print("logging")
 
 def response(status_code, response_body):
     return {
