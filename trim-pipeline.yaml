@@ -23,6 +23,24 @@ Parameters:
     Default: cf-email-receiving-rule
 
 Resources:
+  SpamFilterLambdaRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+        - 'arn:aws:iam::aws:policy/AmazonS3FullAccess'
+        - 'arn:aws:iam::aws:policy/AmazonSageMakerFullAccess'
+        - 'arn:aws:iam::aws:policy/AmazonSESFullAccess'     
+
   LambdaLayerSageMaker:
     Type: "AWS::Lambda::LayerVersion"
     Properties:
@@ -44,7 +62,9 @@ Resources:
           ENDPOINT: !Ref EndpointName          
       Handler: spam_filter.lambda_handler
       MemorySize: 512
-      Role: arn:aws:iam::896744021300:role/service-role/spam-filter-py36-role-xiz9p2is
+      Role: !GetAtt 
+        - SpamFilterLambdaRole
+        - Arn
       Runtime: python3.6
       Timeout: 5
       FunctionName: cf-spam-filter
